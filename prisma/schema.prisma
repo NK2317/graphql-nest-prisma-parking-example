@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ParkingType {
+  public
+  private
+  courtesy
+}
+
+enum UserType {
+  corporate
+  provider
+  visitor
+}
+
+model Parking {
+  id           Int         @id @default(autoincrement())
+  name         String
+  contact      String
+  slots        Int
+  aviableSlots Int         @default(0)
+  parkingType  ParkingType
+  createdAt    DateTime    @default(now())
+
+  // relationships
+  Checkouts Checkin[]
+}
+
+model Checkin {
+  id        Int      @id @default(autoincrement())
+  parkingId Int
+  userType  UserType
+  createdAt DateTime @default(now())
+
+  // relationships
+  Parking Parking @relation(fields: [parkingId], references: [id])
+}

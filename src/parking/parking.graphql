@@ -1,0 +1,50 @@
+enum ParkingType {
+  public
+  private
+  courtesy
+}
+
+enum UserType {
+  corporate
+  provider
+  visitor
+}
+
+type Parking {
+  id: Int!
+  name: String!
+  contact: String!
+  slots: Int!
+  aviableSlots: Int
+  parkingType: ParkingType!
+  createdAt: String
+}
+
+type Checkin {
+  id: Int!
+  parkingId: Int!
+  userType: UserType!
+  createdAt: String
+}
+
+input CreateParkingInput {
+  name: String!
+  contact: String!
+  slots: Int!
+  parkingType: ParkingType!
+}
+
+input OrderBy {
+  orderBy: String!
+  direction: String!
+}
+
+type Query {
+  getToken(userName: String!): String!
+  parkings(skip: Int! take: Int! orderBy: OrderBy!): [Parking]!
+}
+
+type Mutation {
+  createParking(createParkingInput: CreateParkingInput!): Parking!
+  checkin(parkingId: Int! userType: UserType!): Checkin!
+}
