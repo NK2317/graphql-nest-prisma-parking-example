@@ -16,7 +16,7 @@ export class RulesService {
       .length(10)
       .pattern(/^[0-9]+$/)
       .required(),
-    slots: Joi.number().greater(49).less(1501),
+    slots: Joi.number().integer().greater(49).less(1501),
     parkingType: Joi.string().valid('public', 'private', 'courtesy'),
   });
 
